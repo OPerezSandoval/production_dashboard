@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
+import time
 
 st.set_page_config(page_title="RFA Hourly Production",
                    page_icon=":bar_chart",
@@ -9,6 +10,9 @@ st.set_page_config(page_title="RFA Hourly Production",
 
 with open('style.css') as f:
     st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+
+current_time = time.strftime("%H:%M:%S")
+print(current_time)
 
 def plot_gauge(
         indicator_number, indicator_color, indicator_suffix, indicator_title, max_bound
@@ -57,18 +61,31 @@ df3 = pd.read_excel(excel_file,
                     sheet_name=sheet_name,
                     usecols='K,L,M,N')
 
-st.title("RFA Hourly Production")
+title_col1, title_col2, title_col3 = st.columns([0.5,3,0.5])
+
+with title_col1:
+    st.write("")
+
+with title_col2:
+    st.markdown("<h1 style='text-align: center; color: black;'>RFA Hourly Production</h1>", unsafe_allow_html=True)
+
+with title_col3:
+    st.write("")
+
 col1, col2, col3 = st.columns(3)
 
-previous_hour_line1 = 219
-previous_hour_line2 = 122
+previous_hour_line1 = 155
+previous_hour_line2 = 164
 previous_hour_line3 = 0
 
-line1_hourly = 141
-line2_hourly = 157
+line1_hourly = 211
+line2_hourly = 79
 line3_hourly = 0
 
-number = df.loc[1, :].values[1] # This will pull from the excel sheet
+# if statement that if current_time is beetweeen 10:00:00-10:59:00 then inser number for the 10:00:00 cell then
+# get the cell corresponding for that hour
+
+number = df.loc[0, :].values[0] # This will pull from the excel sheet
 print(number)
 
 percentage1 = ((line1_hourly - previous_hour_line1) / previous_hour_line1) * 100
