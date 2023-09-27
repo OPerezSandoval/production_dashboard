@@ -6,6 +6,10 @@ import plotly.graph_objects as go
 st.set_page_config(page_title="RFA Hourly Production",
                    page_icon=":bar_chart",
                    layout="wide")
+
+with open('style.css') as f:
+    st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+
 def plot_gauge(
         indicator_number, indicator_color, indicator_suffix, indicator_title, max_bound
 ):
@@ -56,20 +60,24 @@ df3 = pd.read_excel(excel_file,
 st.title("RFA Hourly Production")
 col1, col2, col3 = st.columns(3)
 
-previous_hour_line1 = 102
-previous_hour_line2 = 47
-previous_hour_line3 = 1
+previous_hour_line1 = 219
+previous_hour_line2 = 122
+previous_hour_line3 = 0
 
-line1_hourly = 219
-line2_hourly = 122
-line3_hourly = 2
+line1_hourly = 141
+line2_hourly = 157
+line3_hourly = 0
 
 number = df.loc[1, :].values[1] # This will pull from the excel sheet
 print(number)
 
 percentage1 = ((line1_hourly - previous_hour_line1) / previous_hour_line1) * 100
 percentage2 = ((line2_hourly - previous_hour_line2) / previous_hour_line2) * 100
-percentage3 = ((line3_hourly - previous_hour_line3) / previous_hour_line3) * 100
+
+if previous_hour_line3 == 0 or line3_hourly == 0:
+    percentage3 = 0
+else:
+    percentage3 = ((line3_hourly - previous_hour_line3) / previous_hour_line3) * 100
 
 # if else statement in one line for colors
 color1 = "#FF2B2B" if line1_hourly < 115 else "#FFE633" if line1_hourly < 200 else "#2F8E09"
@@ -78,26 +86,37 @@ color3 = "#FF2B2B" if line3_hourly < 115 else "#FFE633" if line3_hourly < 200 el
 
 with col1:
     col1.metric("RFA Line 1", line1_hourly, str(round(percentage1, 2)) + "%")
-    plot_gauge(line1_hourly, color1, "", "Line 1", 230)
-    st.dataframe(df)
+    #plot_gauge(line1_hourly, color1, "", "Line 1", 230)
+    #st.dataframe(df)
 
 with col2:
     col2.metric("RFA Line 2", line2_hourly, str(round(percentage2, 2)) + "%")
-    plot_gauge(line2_hourly, color2, "", "Line 2", 230)
-    st.dataframe(df2)
+    #plot_gauge(line2_hourly, color2, "", "Line 2", 230)
+    #st.dataframe(df2)
 
 with col3:
     col3.metric("RFA Line 3", line3_hourly, str(round(percentage3, 2)) + "%")
-    plot_gauge(line3_hourly, color3, "", "Line 3", 230)
-    st.dataframe(df3)
+    #plot_gauge(line3_hourly, color3, "", "Line 3", 230)
+    #st.dataframe(df3)
 
-# col3, col4, col5 = st.columns(3)
-#
-# with col3:
-#     st.dataframe(df)
-#
-# with col4:
-#     st.dataframe(df2)
-#
-# with col5:
-#     st.dataframe(df3)
+col3, col4, col5 = st.columns(3)
+
+with col3:
+    plot_gauge(line1_hourly, color1, "", "Line 1", 230)
+
+with col4:
+    plot_gauge(line2_hourly, color2, "", "Line 2", 230)
+
+with col5:
+    plot_gauge(line3_hourly, color3, "", "Line 3", 230)
+
+col6, col7, col8 = st.columns(3)
+
+with col6:
+    st.dataframe(df)
+
+with col7:
+    st.dataframe(df2)
+
+with col8:
+    st.dataframe(df3)
