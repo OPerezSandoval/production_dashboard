@@ -7,7 +7,7 @@ st.set_page_config(page_title="RFA Hourly Production",
                    page_icon=":bar_chart",
                    layout="wide")
 
-filename="hourly_production_lines.xlsx"
+filename = "hourly_production_lines.xlsx"
 
 # dataframe
 excel_file = pd.ExcelFile(filename)
@@ -53,14 +53,12 @@ def plot_gauge(
     )
     st.plotly_chart(fig, use_container_width=True)
 
-
-
 st.title("RFA Hourly Production")
 col1, col2, col3 = st.columns(3)
 
 with col1:
-    col1.metric("RFA Line 1", "0", "%")
-    plot_gauge(0, "#FF2B2B", "", "Line 1", 230)
+    col1.metric("RFA Line 1", "10", "%")
+    plot_gauge(10, "#FF2B2B", "", "Line 1", 230)
     st.dataframe(df)
 
 with col2:
