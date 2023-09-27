@@ -11,7 +11,7 @@ st.set_page_config(page_title="RFA Hourly Production",
 with open('style.css') as f:
     st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 
-current_time = time.strftime("%H:%M:%S")
+current_time = time.strftime("%H")
 print(current_time)
 
 def plot_gauge(
@@ -82,11 +82,22 @@ line1_hourly = 211
 line2_hourly = 79
 line3_hourly = 0
 
-# if statement that if current_time is beetweeen 10:00:00-10:59:00 then inser number for the 10:00:00 cell then
+# if statement that if current_time is beetween 10:00:00-10:59:00 then inser number for the 10:00:00 cell then
 # get the cell corresponding for that hour
 
-number = df.loc[0, :].values[0] # This will pull from the excel sheet
-print(number)
+# if current_time in range(11:00:00,11:59:00):
+#     print("hi")
+match current_time:
+    # you would have to do current time and subract 1 to get the correct time when coding it
+    # you need a case for every hour and getting corresponding cells
+    case "11":
+        prev_number = df.loc[5, :].values[1]
+        curr_number = df.loc[6, :].values[1]  # This will pull from the excel sheet
+        percentage1_test = ((line1_hourly - previous_hour_line1) / previous_hour_line1) * 100
+        print(prev_number, curr_number)
+
+# number = df.loc[0, :].values[0] # This will pull from the excel sheet
+# print(number)
 
 percentage1 = ((line1_hourly - previous_hour_line1) / previous_hour_line1) * 100
 percentage2 = ((line2_hourly - previous_hour_line2) / previous_hour_line2) * 100
@@ -97,12 +108,12 @@ else:
     percentage3 = ((line3_hourly - previous_hour_line3) / previous_hour_line3) * 100
 
 # if else statement in one line for colors
-color1 = "#FF2B2B" if line1_hourly < 115 else "#FFE633" if line1_hourly < 200 else "#2F8E09"
+color1 = "#FF2B2B" if curr_number < 115 else "#FFE633" if curr_number < 200 else "#2F8E09"
 color2 = "#FF2B2B" if line2_hourly < 115 else "#FFE633" if line2_hourly < 200 else "#2F8E09"
 color3 = "#FF2B2B" if line3_hourly < 115 else "#FFE633" if line3_hourly < 200 else "#2F8E09"
 
 with col1:
-    col1.metric("RFA Line 1", line1_hourly, str(round(percentage1, 2)) + "%")
+    col1.metric("RFA Line 1", curr_number, str(round(percentage1_test, 2)) + "%")
     #plot_gauge(line1_hourly, color1, "", "Line 1", 230)
     #st.dataframe(df)
 
@@ -119,7 +130,7 @@ with col3:
 col3, col4, col5 = st.columns(3)
 
 with col3:
-    plot_gauge(line1_hourly, color1, "", "Line 1", 230)
+    plot_gauge(curr_number, color1, "", "Line 1", 230)
 
 with col4:
     plot_gauge(line2_hourly, color2, "", "Line 2", 230)
