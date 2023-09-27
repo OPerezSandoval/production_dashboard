@@ -6,24 +6,6 @@ import plotly.graph_objects as go
 st.set_page_config(page_title="RFA Hourly Production",
                    page_icon=":bar_chart",
                    layout="wide")
-
-filename = "hourly_production_lines.xlsx"
-
-# dataframe
-excel_file = pd.ExcelFile(filename)
-sheet_name = 'Sheet1'
-
-df = pd.read_excel(excel_file,
-                   sheet_name=sheet_name,
-                   usecols='A,B,C,D')
-
-df2 = pd.read_excel(excel_file,
-                    sheet_name=sheet_name,
-                    usecols='F,G,H,I')
-
-df3 = pd.read_excel(excel_file,
-                    sheet_name=sheet_name,
-                    usecols='K,L,M,N')
 def plot_gauge(
         indicator_number, indicator_color, indicator_suffix, indicator_title, max_bound
 ):
@@ -53,6 +35,24 @@ def plot_gauge(
     )
     st.plotly_chart(fig, use_container_width=True)
 
+filename = "hourly_production_lines.xlsx"
+
+# dataframe
+excel_file = pd.ExcelFile(filename)
+sheet_name = 'Sheet1'
+
+df = pd.read_excel(excel_file,
+                   sheet_name=sheet_name,
+                   usecols='A,B,C,D')
+
+df2 = pd.read_excel(excel_file,
+                    sheet_name=sheet_name,
+                    usecols='F,G,H,I')
+
+df3 = pd.read_excel(excel_file,
+                    sheet_name=sheet_name,
+                    usecols='K,L,M,N')
+
 st.title("RFA Hourly Production")
 col1, col2, col3 = st.columns(3)
 
@@ -63,6 +63,9 @@ previous_hour_line3 = 1
 line1_hourly = 219
 line2_hourly = 122
 line3_hourly = 2
+
+number = df.loc[1, :].values[1] # This will pull from the excel sheet
+print(number)
 
 percentage1 = ((line1_hourly - previous_hour_line1) / previous_hour_line1) * 100
 percentage2 = ((line2_hourly - previous_hour_line2) / previous_hour_line2) * 100
