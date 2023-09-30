@@ -36,6 +36,7 @@ def plot_gauge(
             },
         )
     )
+
     fig.update_layout(
         # paper_bgcolor="lightgrey",
         height=200,
@@ -90,27 +91,65 @@ line3_hourly = 0
 match current_time:
     # you would have to do current time and subract 1 to get the correct time when coding it
     # you need a case for every hour and getting corresponding cells
+    case "10":
+        # numbers for line 1
+        prev_number = df.loc[6, :].values[1]
+        curr_number = df.loc[7, :].values[1]  # This will pull from the excel sheet
+        percentage1_test = ((curr_number - prev_number) / prev_number) * 100
+
+        # numbers for line 2
+        prev_number2 = df2.loc[6, :].values[1]
+        curr_number2 = df2.loc[7, :].values[1]  # This will pull from the excel sheet
+        percentage2_test = ((curr_number2 - prev_number2) / prev_number2) * 100
+        print(curr_number2)
+
+        # numbers for line 3
+        prev_number3 = df3.loc[6, :].values[1]
+        curr_number3 = df3.loc[7, :].values[1]  # This will pull from the excel sheet
+        if prev_number3 == 0 or curr_number3 == 0:
+            percentage3_test = 0
+        else:
+            percentage3_test = ((curr_number3 - prev_number3) / prev_number3) * 100
+        print(curr_number3)
     case "11":
         prev_number = df.loc[5, :].values[1]
         curr_number = df.loc[6, :].values[1]  # This will pull from the excel sheet
-        percentage1_test = ((line1_hourly - previous_hour_line1) / previous_hour_line1) * 100
-        print(prev_number, curr_number)
+        percentage1_test = ((curr_number - prev_number) / prev_number) * 100
+        print(prev_number, curr_number, percentage1_test)
+    case "13":
+        # numbers for line 1
+        prev_number = df.loc[6, :].values[1]
+        curr_number = df.loc[7, :].values[1]  # This will pull from the excel sheet
+        percentage1_test = ((curr_number - prev_number) / prev_number) * 100
+
+        # numbers for line 2
+        prev_number2 = df2.loc[6, :].values[1]
+        curr_number2 = df2.loc[7, :].values[1]  # This will pull from the excel sheet
+        percentage2_test = ((curr_number2 - prev_number2) / prev_number2) * 100
+        print(curr_number2)
+
+        # numbers for line 3
+        prev_number3 = df3.loc[6, :].values[1]
+        curr_number3 = df3.loc[7, :].values[1]  # This will pull from the excel sheet
+        percentage3_test = ((curr_number3 - prev_number3) / prev_number3) * 100
+        print(curr_number3)
+
 
 # number = df.loc[0, :].values[0] # This will pull from the excel sheet
 # print(number)
+#percentage1_test = ((line1_hourly - previous_hour_line1) / previous_hour_line1) * 100
+#percentage1 = ((line1_hourly - previous_hour_line1) / previous_hour_line1) * 100
+#percentage2 = ((line2_hourly - previous_hour_line2) / previous_hour_line2) * 100
 
-percentage1 = ((line1_hourly - previous_hour_line1) / previous_hour_line1) * 100
-percentage2 = ((line2_hourly - previous_hour_line2) / previous_hour_line2) * 100
-
-if previous_hour_line3 == 0 or line3_hourly == 0:
-    percentage3 = 0
-else:
-    percentage3 = ((line3_hourly - previous_hour_line3) / previous_hour_line3) * 100
+# if previous_hour_line3 == 0 or line3_hourly == 0:
+#     percentage3 = 0
+# else:
+#     percentage3 = ((line3_hourly - previous_hour_line3) / previous_hour_line3) * 100
 
 # if else statement in one line for colors
 color1 = "#FF2B2B" if curr_number < 115 else "#FFE633" if curr_number < 200 else "#2F8E09"
-color2 = "#FF2B2B" if line2_hourly < 115 else "#FFE633" if line2_hourly < 200 else "#2F8E09"
-color3 = "#FF2B2B" if line3_hourly < 115 else "#FFE633" if line3_hourly < 200 else "#2F8E09"
+color2 = "#FF2B2B" if curr_number2 < 115 else "#FFE633" if curr_number2 < 200 else "#2F8E09"
+color3 = "#FF2B2B" if curr_number3 < 115 else "#FFE633" if curr_number3 < 200 else "#2F8E09"
 
 with col1:
     col1.metric("RFA Line 1", curr_number, str(round(percentage1_test, 2)) + "%")
@@ -118,33 +157,29 @@ with col1:
     #st.dataframe(df)
 
 with col2:
-    col2.metric("RFA Line 2", line2_hourly, str(round(percentage2, 2)) + "%")
+    col2.metric("RFA Line 2", curr_number2, str(round(percentage2_test, 2)) + "%")
     #plot_gauge(line2_hourly, color2, "", "Line 2", 230)
     #st.dataframe(df2)
 
 with col3:
-    col3.metric("RFA Line 3", line3_hourly, str(round(percentage3, 2)) + "%")
+    col3.metric("RFA Line 3", curr_number3, str(round(percentage3_test, 2)) + "%")
     #plot_gauge(line3_hourly, color3, "", "Line 3", 230)
     #st.dataframe(df3)
 
 col3, col4, col5 = st.columns(3)
 
 with col3:
-    plot_gauge(curr_number, color1, "", "Line 1", 230)
-
+    plot_gauge(curr_number, color1, "", "Line 1", 300)
 with col4:
-    plot_gauge(line2_hourly, color2, "", "Line 2", 230)
-
+    plot_gauge(curr_number2, color2, "", "Line 2", 300)
 with col5:
-    plot_gauge(line3_hourly, color3, "", "Line 3", 230)
+    plot_gauge(curr_number3, color3, "", "Line 3", 300)
 
 col6, col7, col8 = st.columns(3)
 
 with col6:
     st.dataframe(df)
-
 with col7:
     st.dataframe(df2)
-
 with col8:
     st.dataframe(df3)
