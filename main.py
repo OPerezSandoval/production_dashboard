@@ -75,13 +75,9 @@ with title_col3:
 
 col1, col2, col3 = st.columns(3)
 
-previous_hour_line1 = 155
-previous_hour_line2 = 164
-previous_hour_line3 = 0
 
-line1_hourly = 211
-line2_hourly = 79
-line3_hourly = 0
+print(current_time)
+print(df.loc[1, :].values[1])
 
 # if statement that if current_time is beetween 10:00:00-10:59:00 then inser number for the 10:00:00 cell then
 # get the cell corresponding for that hour
@@ -89,8 +85,48 @@ line3_hourly = 0
 # if current_time in range(11:00:00,11:59:00):
 #     print("hi")
 match current_time:
-    # you would have to do current time and subract 1 to get the correct time when coding it
+    # you would have to do current time and subtract 1 to get the correct time when coding it
     # you need a case for every hour and getting corresponding cells
+    case "04":
+        # numbers for line 1
+        prev_number = 0
+        curr_number = 0
+        percentage1_test = 0
+
+        # numbers for line 2
+        prev_number2 = 0
+        curr_number2 = 0
+        percentage2_test = 0
+
+        # numbers for line 3
+        prev_number3 = 0
+        curr_number3 = 0
+        if prev_number3 == 0 or curr_number3 == 0:
+            percentage3_test = 0
+        else:
+            percentage3_test = 0
+
+    case "06":
+        # numbers for line 1
+        prev_number = df.loc[0, :].values[1]
+        curr_number = df.loc[1, :].values[1]  # This will pull from the excel sheet
+        percentage1_test = ((curr_number - prev_number) / prev_number) * 100
+
+        # numbers for line 2
+        prev_number2 = df2.loc[0, :].values[1]
+        curr_number2 = df2.loc[1, :].values[1]  # This will pull from the excel sheet
+        percentage2_test = ((curr_number2 - prev_number2) / prev_number2) * 100
+        print(curr_number2)
+
+        # numbers for line 3
+        prev_number3 = df3.loc[0, :].values[1]
+        curr_number3 = df3.loc[1, :].values[1]  # This will pull from the excel sheet
+        if prev_number3 == 0 or curr_number3 == 0:
+            percentage3_test = 0
+        else:
+            percentage3_test = ((curr_number3 - prev_number3) / prev_number3) * 100
+        print(curr_number3)
+
     case "10":
         # numbers for line 1
         prev_number = df.loc[6, :].values[1]
@@ -133,18 +169,6 @@ match current_time:
         curr_number3 = df3.loc[7, :].values[1]  # This will pull from the excel sheet
         percentage3_test = ((curr_number3 - prev_number3) / prev_number3) * 100
         print(curr_number3)
-
-
-# number = df.loc[0, :].values[0] # This will pull from the excel sheet
-# print(number)
-#percentage1_test = ((line1_hourly - previous_hour_line1) / previous_hour_line1) * 100
-#percentage1 = ((line1_hourly - previous_hour_line1) / previous_hour_line1) * 100
-#percentage2 = ((line2_hourly - previous_hour_line2) / previous_hour_line2) * 100
-
-# if previous_hour_line3 == 0 or line3_hourly == 0:
-#     percentage3 = 0
-# else:
-#     percentage3 = ((line3_hourly - previous_hour_line3) / previous_hour_line3) * 100
 
 # if else statement in one line for colors
 color1 = "#FF2B2B" if curr_number < 115 else "#FFE633" if curr_number < 200 else "#2F8E09"
