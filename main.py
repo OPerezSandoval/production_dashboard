@@ -79,6 +79,8 @@ col1, col2, col3 = st.columns(3)
 print(current_time)
 print(df.loc[1, :].values[1])
 
+#current_time = "05"
+
 # if statement that if current_time is beetween 10:00:00-10:59:00 then inser number for the 10:00:00 cell then
 # get the cell corresponding for that hour
 
@@ -106,6 +108,26 @@ match current_time:
         else:
             percentage3_test = 0
 
+    case "05":
+        # numbers for line 1
+        prev_number = 0
+        curr_number = df.loc[0, :].values[1]  # This will pull from the excel sheet
+        percentage1_test = 100
+
+        # numbers for line 2
+        prev_number2 = 0
+        curr_number2 = df2.loc[0, :].values[1]  # This will pull from the excel sheet
+        percentage2_test = 100
+        print(curr_number2)
+
+        # numbers for line 3
+        prev_number3 = 0
+        curr_number3 = df3.loc[0, :].values[1]  # This will pull from the excel sheet
+        if curr_number3 > 0:
+            percentage3_test = 100
+        else:
+            percentage3_test = 0
+
     case "06":
         # numbers for line 1
         prev_number = df.loc[0, :].values[1]
@@ -121,6 +143,27 @@ match current_time:
         # numbers for line 3
         prev_number3 = df3.loc[0, :].values[1]
         curr_number3 = df3.loc[1, :].values[1]  # This will pull from the excel sheet
+        if prev_number3 == 0 or curr_number3 == 0:
+            percentage3_test = 0
+        else:
+            percentage3_test = ((curr_number3 - prev_number3) / prev_number3) * 100
+        print(curr_number3)
+
+    case "07":
+        # numbers for line 1
+        prev_number = df.loc[1, :].values[1]
+        curr_number = df.loc[2, :].values[1]  # This will pull from the excel sheet
+        percentage1_test = ((curr_number - prev_number) / prev_number) * 100
+
+        # numbers for line 2
+        prev_number2 = df2.loc[1, :].values[1]
+        curr_number2 = df2.loc[2, :].values[1]  # This will pull from the excel sheet
+        percentage2_test = ((curr_number2 - prev_number2) / prev_number2) * 100
+        print(curr_number2)
+
+        # numbers for line 3
+        prev_number3 = df3.loc[1, :].values[1]
+        curr_number3 = df3.loc[2, :].values[1]  # This will pull from the excel sheet
         if prev_number3 == 0 or curr_number3 == 0:
             percentage3_test = 0
         else:
