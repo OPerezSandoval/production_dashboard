@@ -190,11 +190,32 @@ match current_time:
         else:
             percentage3_test = ((curr_number3 - prev_number3) / prev_number3) * 100
         print(curr_number3)
+
     case "11":
+        # Numbers for line 1
         prev_number = df.loc[5, :].values[1]
-        curr_number = df.loc[6, :].values[1]  # This will pull from the excel sheet
+        curr_number = df.loc[6, :].values[1]
         percentage1_test = ((curr_number - prev_number) / prev_number) * 100
         print(prev_number, curr_number, percentage1_test)
+
+        # numbers for line 2
+        prev_number2 = df2.loc[5, :].values[1]
+        curr_number2 = df2.loc[6, :].values[
+            1]  # This will pull from the excel sheet
+        percentage2_test = ((curr_number2 - prev_number2) / prev_number2) * 100
+        print(curr_number2)
+
+        # numbers for line 3
+        prev_number3 = df3.loc[5, :].values[1]
+        curr_number3 = df3.loc[6, :].values[
+            1]  # This will pull from the excel sheet
+        if prev_number3 == 0 or curr_number3 == 0:
+            percentage3_test = 0
+        else:
+            percentage3_test = ((
+                                            curr_number3 - prev_number3) / prev_number3) * 100
+        print(curr_number3)
+
     case "13":
         # numbers for line 1
         prev_number = df.loc[6, :].values[1]
@@ -213,10 +234,14 @@ match current_time:
         percentage3_test = ((curr_number3 - prev_number3) / prev_number3) * 100
         print(curr_number3)
 
+
+
 # if else statement in one line for colors
 color1 = "#FF2B2B" if curr_number < 115 else "#FFE633" if curr_number < 200 else "#2F8E09"
 color2 = "#FF2B2B" if curr_number2 < 115 else "#FFE633" if curr_number2 < 200 else "#2F8E09"
 color3 = "#FF2B2B" if curr_number3 < 115 else "#FFE633" if curr_number3 < 200 else "#2F8E09"
+
+
 
 with col1:
     col1.metric("RFA Line 1", curr_number, str(round(percentage1_test, 2)) + "%")
